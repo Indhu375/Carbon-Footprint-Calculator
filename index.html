@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoCalculator - Carbon Footprint Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">🌱</div>
+                    <div class="logo-text">
+                        <h1>EcoCalculator</h1>
+                        <p>Carbon Footprint Tracker</p>
+                    </div>
+                </div>
+                <div class="header-actions" style="display:flex; align-items:center; gap:0.75rem;">
+                    <span class="tagline">Calculate • Track • Reduce</span>
+                    <div id="auth-area"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Home Screen -->
+            <div id="home-screen" class="screen active">
+                <!-- Hero Section -->
+                <section class="hero">
+                    <div class="hero-icon">🧮</div>
+                    <h1>Calculate Your Carbon Footprint</h1>
+                    <p>Understand your environmental impact across transportation, energy, food, and lifestyle choices. Get personalized recommendations to reduce your carbon footprint and make a positive difference.</p>
+                    
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">📈</div>
+                            <h3>8.5 tons</h3>
+                            <p>Average Indian carbon footprint per year</p>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">👥</div>
+                            <h3>4 tons</h3>
+                            <p>Global average per person</p>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🎯</div>
+                            <h3>2 tons</h3>
+                            <p>Target for climate stability</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Categories -->
+                <section class="categories">
+                    <h2>Choose a Category to Begin</h2>
+                    <div class="category-grid">
+                        <div class="category-card" data-category="transportation">
+                            <div class="category-icon transportation">🚗</div>
+                            <h3>Transportation</h3>
+                            <p>Calculate emissions from cars, flights, and public transport</p>
+                            <div class="completion-indicator"></div>
+                            <button class="category-btn">Get Started</button>
+                        </div>
+                        
+                        <div class="category-card" data-category="energy">
+                            <div class="category-icon energy">🏠</div>
+                            <h3>Home Energy</h3>
+                            <p>Electricity, heating, and cooling usage</p>
+                            <div class="completion-indicator"></div>
+                            <button class="category-btn">Get Started</button>
+                        </div>
+                        
+                        <div class="category-card" data-category="food">
+                            <div class="category-icon food">🍽️</div>
+                            <h3>Food & Diet</h3>
+                            <p>Impact of your dietary choices and food consumption</p>
+                            <div class="completion-indicator"></div>
+                            <button class="category-btn">Get Started</button>
+                        </div>
+                        
+                        <div class="category-card" data-category="lifestyle">
+                            <div class="category-icon lifestyle">🛍️</div>
+                            <h3>Lifestyle</h3>
+                            <p>Shopping, waste, and other consumption patterns</p>
+                            <div class="completion-indicator"></div>
+                            <button class="category-btn">Get Started</button>
+                        </div>
+                    </div>
+
+                    <!-- Calculate Results Button -->
+                    <div class="calculate-section" id="calculate-section" style="display: none;">
+                        <button id="calculate-btn" class="calculate-btn">
+                            📊 View Your Carbon Footprint Results
+                        </button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Calculator Screen -->
+            <div id="calculator-screen" class="screen">
+                <div class="calculator-header">
+                    <button id="back-btn" class="back-btn">← Back</button>
+                    <div class="calculator-title">
+                        <div class="calculator-icon"></div>
+                        <div>
+                            <h1 id="calculator-title-text">Category</h1>
+                            <p>Enter your data to calculate emissions</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calculator-form" id="calculator-form">
+                    <!-- Form content will be dynamically generated -->
+                </div>
+
+                <div class="calculator-footer">
+                    <p>All data is stored locally in your browser</p>
+                    <button id="save-continue-btn" class="save-btn">Save & Continue →</button>
+                </div>
+            </div>
+
+            <!-- Results Screen -->
+            <div id="results-screen" class="screen">
+                <div class="results-header">
+                    <button id="results-back-btn" class="back-btn">← Back to Categories</button>
+                    <div style="display:flex; gap:0.5rem; align-items:center;">
+                        <button id="recalculate-btn" class="recalculate-btn">🔄 Update Data</button>
+                        <button id="save-server-btn" class="recalculate-btn">💾 Save to Server</button>
+                        <span id="save-status" style="font-size:0.9rem; color:#6b7280;"></span>
+                    </div>
+                </div>
+
+                <div class="results-content">
+                    <!-- Main Results -->
+                    <div class="results-summary">
+                        <h1>Your Carbon Footprint Results</h1>
+                        <div class="total-emissions">
+                            <div class="total-number" id="total-emissions">0.0</div>
+                            <p>tons CO₂e per year</p>
+                        </div>
+                        <div id="saved-id" style="margin-top:0.75rem; font-size:0.95rem; color:#374151; display:none;"></div>
+                    </div>
+
+                    <!-- Comparison Cards -->
+                    <div class="comparison-grid">
+                        <div class="comparison-card">
+                            <h3>vs Indian Average</h3>
+                            <p class="comparison-value">8.5 tons</p>
+                            <span class="comparison-status" id="us-comparison">Average</span>
+                        </div>
+                        <div class="comparison-card">
+                            <h3>vs Global Average</h3>
+                            <p class="comparison-value">4.0 tons</p>
+                            <span class="comparison-status" id="global-comparison">Average</span>
+                        </div>
+                        <div class="comparison-card">
+                            <h3>Climate Target</h3>
+                            <p class="comparison-value">2.0 tons</p>
+                            <span class="comparison-status" id="target-comparison">Above Target</span>
+                        </div>
+                    </div>
+
+                    <!-- Category Breakdown -->
+                    <div class="breakdown-section">
+                        <div class="breakdown-list">
+                            <h3>Emissions by Category</h3>
+                            <div class="breakdown-items">
+                                <div class="breakdown-item">
+                                    <span>Transportation</span>
+                                    <span id="transport-emissions">0.0 tons</span>
+                                </div>
+                                <div class="breakdown-item">
+                                    <span>Home Energy</span>
+                                    <span id="energy-emissions">0.0 tons</span>
+                                </div>
+                                <div class="breakdown-item">
+                                    <span>Food & Diet</span>
+                                    <span id="food-emissions">0.0 tons</span>
+                                </div>
+                                <div class="breakdown-item">
+                                    <span>Lifestyle</span>
+                                    <span id="lifestyle-emissions">0.0 tons</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="breakdown-chart">
+                            <h3>Visual Breakdown</h3>
+                            <div class="chart-container">
+                                <div class="chart-item" data-category="transportation">
+                                    <div class="chart-label">Transportation</div>
+                                    <div class="chart-bar">
+                                        <div class="chart-fill transportation" style="width: 0%"></div>
+                                    </div>
+                                    <div class="chart-percentage">0%</div>
+                                </div>
+                                <div class="chart-item" data-category="energy">
+                                    <div class="chart-label">Energy</div>
+                                    <div class="chart-bar">
+                                        <div class="chart-fill energy" style="width: 0%"></div>
+                                    </div>
+                                    <div class="chart-percentage">0%</div>
+                                </div>
+                                <div class="chart-item" data-category="food">
+                                    <div class="chart-label">Food</div>
+                                    <div class="chart-bar">
+                                        <div class="chart-fill food" style="width: 0%"></div>
+                                    </div>
+                                    <div class="chart-percentage">0%</div>
+                                </div>
+                                <div class="chart-item" data-category="lifestyle">
+                                    <div class="chart-label">Lifestyle</div>
+                                    <div class="chart-bar">
+                                        <div class="chart-fill lifestyle" style="width: 0%"></div>
+                                    </div>
+                                    <div class="chart-percentage">0%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommendations -->
+                    <div class="recommendations-section">
+                        <h2>💡 Personalized Recommendations</h2>
+                        <div class="recommendations-grid" id="recommendations-grid">
+                            <!-- Recommendations will be dynamically generated -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="auth.js"></script>
+    <script type="module" src="script.js"></script>
+
+</body>
+</html>
